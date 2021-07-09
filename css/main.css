@@ -16,6 +16,22 @@ h4{
     color: #687a96;
 }
 table{
-    border: 1px solid black;
-    border-width: 0.5px;
+    border: 0.5px solid #ebebeb;
+    border-radius: 5px;
+    font-family: 'Roboto', sans-serif;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+th{
+    padding: 10px;
+    border-top: 0.5px solid #ebebeb;
+}
+
+td{
+    padding: 10px;
+}
+
+tr{
+    padding: 10px;
+    border-top: 0.5px solid #ebebeb;
 }

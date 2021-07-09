@@ -6,22 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dom table test</title>
     <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/button.css">
+    <script type="text/javascript" src="./js/handlers.js"></script>
 </head>
 <body>
     <h1>Dom table test</h1>
     <h4>Yea, though I walk through the valley of the shadow of <u>undefined</u>, I will fear no <u>this</u>: for thou <u>closure</u>  with me;
-    <br> thy <b><u>bind</u></b> and thy <u>scope</u> they comfort me.</h4>
+    <br> thy <u>bind</u> and thy <u>scope</u> they comfort me.</h4>
     <div>
-        <table>
-            <thead>
-                <th></th>
-            </thead>
-            <tbody>
+        <button id="addColumButton" onclick="addColumn()">Add column</button>
+        <button id="addRowButton" onclick="addRow()">Add Row</button>
+    </div>
+    <div>
+        <table id="mainTable" class="main-table-content">
+            <thead id="tableHead"></thead>
+            <tbody id="mainTableBody">
 
             </tbody>
-            <tfoot>
-
-            </tfoot>
 
         </table>
     </div>
