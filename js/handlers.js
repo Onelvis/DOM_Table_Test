@@ -4,8 +4,12 @@ function addRow(){
 	let tableHead = document.getElementById('tableHead');
 
 	if(tableHead.childNodes.length === 0){
-		let firstHeader = document.createElement('th');
-		tableHead.appendChild(firstHeader);
+		const firstHeaderRow = document.createElement('tr');
+		firstHeaderRow.className = "headersRow";
+		const firstHeader = document.createElement('th');
+		firstHeader.className = "tableHeaders";
+		firstHeaderRow.firstHeader;
+		tableHead.appendChild(firstHeaderRow);
 	}
 	else{
 		
@@ -39,17 +43,26 @@ function addRow(){
 function addColumn(){
 	let tableHead = document.getElementById('tableHead');
 
-	if(tableHead.childNodes.length === 0){
-		let firstHeader = document.createElement('th');
-		const text = document.createTextNode("Header");
+	if(tableHead.childNodes.length === 1){
+		const headerRow = document.createElement('tr');
+		headerRow.className = "headersRow";
+		headerRow.id = "headerRow";
+		const text = document.createTextNode('Header');
+		const firstHeader = document.createElement('th');
+		firstHeader.className = "tableHeaders";
 		firstHeader.appendChild(text);
-		tableHead.appendChild(firstHeader);
+		headerRow.appendChild(firstHeader);
+		tableHead.appendChild(headerRow);
 	}
 
 	else {
-		tableHead = document.getElementById('tableHead');
+		headersRow = document.getElementById('headerRow');
+		const text = document.createTextNode('Header');
+
 		let newHeader = document.createElement('th');
-		tableHead.appendChild(newHeader);
+		newHeader.className = "tableHeaders";
+		newHeader.appendChild(text);
+		headersRow.appendChild(newHeader);
 	
 
 		document.querySelectorAll("#mainTableBody tr").forEach( (tr,index) =>{
