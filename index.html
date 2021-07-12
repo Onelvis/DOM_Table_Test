@@ -5,18 +5,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dom table test</title>
-    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/table.css">
+    <link rel="stylesheet" href="./css/modal.css">
     <link rel="stylesheet" href="./css/button.css">
     <script type="text/javascript" src="./js/handlers.js"></script>
+    <script type="text/javascript" src="./js/modal.js"></script>
 </head>
 <body>
     <h1>Dom table test</h1>
     <h4>Yea, though I walk through the valley of the shadow of <u>undefined</u>, I will fear no <u>this</u>: for thou <u>closure</u>  with me;
     <br> thy <u>bind</u> and thy <u>scope</u> they comfort me.</h4>
     <div id="buttonContainer">
-        <button id="addColumButton" onclick="addColumn()">Add column</button>
+        <div  class="dropDownModal">
+            <button onclick="openModal()" id="openModalButton" class="dropDownButton">Columns</button>
+            <div id="addColumnDropdown" class="dropDown">
+                <h6>Column name:</h6>
+                <button onclick="openModal()" id="addColumButton" >Create column</button>
+            </div>
+        </div>
         <button id="addRowButton" onclick="addRow()">Add Row</button>
     </div>
+    <div class="modal"></div>
     <div id="tableContainer">
         <table class="mainTable">
             <thead id="tableHead">
