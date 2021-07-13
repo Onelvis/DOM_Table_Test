@@ -1,4 +1,8 @@
 function openModal(){
-	document.getElementById('addColumnDropdown').classList.toggle("show");
+	document.getElementById('addColumnDropdownContent').classList.toggle("show");
 
+}
+
+function hideModal(){
+	document.getElementById('addColumnDropdownContent').classList.toggle("show");
 }
