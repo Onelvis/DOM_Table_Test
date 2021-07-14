@@ -57,9 +57,9 @@ function addColumn(){
 	//Creating header column
 	const columnName = document.getElementById('columnNameInput').value;
 	const headerRow = document.getElementById('headerRow');
-	const text = document.createTextNode(columnName);
 	const columnHeader = document.createElement('th');
 	const type = document.getElementById('type-select').value;
+	const text = document.createTextNode(type);
 	columnHeader.className = "tableHeaders";
 	columnHeader.columnType = type;
 	columnHeader.typeFormatter = numberFormater;
@@ -72,9 +72,9 @@ function addColumn(){
 	document.querySelectorAll("#mainTableBody tr").forEach( (tr,index) =>{
 		const newCell = document.createElement('td');
 		const editableDiv = document.createElement('div');
-		editableDiv.className = "editableDiv";
+		editableDiv.className = 'textCell';
 		editableDiv.setAttribute('contenteditable',false);
-		editableDiv.ondblclick = function(e){
+		newCell.ondblclick = function(e){
 			editableDiv.setAttribute('contenteditable',!(editableDiv.contentEditable === 'true'));
 			editableDiv.focus();
 		};
@@ -84,21 +84,32 @@ function addColumn(){
 		editableDiv.addEventListener('keydown' , function(e){
 			if(e.code === 'Enter'){
 				editableDiv.blur();
-				const formatter = document.getElementById('headerRow').childNodes[newCell.cellIndex].typeFormatter;
-				formatter();
 			}
 		});
 		newCell.appendChild(editableDiv);
 		tr.appendChild(newCell);
+
+
+		editableDiv.className = getTypeClass(headerRow.childNodes[newCell.cellIndex].columnType);
 	});
 
 		
 }
 
-
-function numberFormater(element){
-	
+function getTypeClass(type){
+	switch(type){
+		case 'Number':
+			return "numberCell";
+		case 'Text':
+			return "textCell";
+		case 'Email':
+			return "emailCell";
+		case 'Url':
+			return "urlCell";
+	}
 }
 
 
-//header.childNodes[newCell.cellIndex].columnType
+function numberFormater(editableDiv){
+	//editableDiv.classList.toggle('numberCell')
+}

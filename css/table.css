@@ -55,18 +55,12 @@ th{
     padding: 10px;
 }
 
-
 .editableDiv{
-    display: flex;
     justify-content: center;
     align-items: center;
-    border-bottom: 0.5px solid #ebebeb;
-    width: 100%;
-    height: 100%;
-    color: black;
 }
-
 td{
+    max-width: 100px;
     width: 60px;
     height: 40px;
     padding: 0px;
@@ -76,13 +70,61 @@ td{
     outline: 0px solid transparent;
     background-color: #ebebeb;
     caret-color: #686868;
-    display: flex;
-    align-items: center;
-    text-align: center;
     line-height: 220%;
+    cursor:auto;
 }
-
 
 tr{
     border-top: 0.5px solid #ebebeb;
+}
+
+
+.numberCell{
+    text-align: right;
+    border-bottom: 0.5px solid #ebebeb;
+    height: 100%;
+    color: black;
+    padding-right: 20px;
+}
+
+.textCell{
+    place-self: center;
+    text-align: center;
+    word-wrap: break-word;
+    /*
+    text-align: center;
+    align-items: center;
+    word-wrap: break-word;*/
+}
+
+.emailCell{
+    margin: auto;
+    place-self: center;
+    text-align: center;
+    width: fit-content;
+    text-decoration: underline;
+    color: #1858be;
+    text-align: center;
+    align-items: center;
+    word-wrap: break-word;
+}
+.emailCell:hover{
+    cursor: pointer;
+    color: #687a96
+}
+.urlCell{
+    margin: auto;
+    place-self: center;
+    text-align: center;
+    width: fit-content;
+    text-decoration: underline;
+    color: #1858be;
+    text-align: center;
+    align-items: center;
+    word-wrap: break-word;
+}
+
+.urlCell:hover{
+    cursor: pointer;
+    color: #687a96;
 }

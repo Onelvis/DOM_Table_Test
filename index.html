@@ -19,14 +19,14 @@
         <div id="addColumnDropdown" class="dropDownModal" onblur="hideModal()">
             <button onclick="openModal()" id="openModalButton" class="dropDownButton">Columns</button>
             <div id="addColumnDropdownContent" class="dropDown">
-                <input id="columnNameInput" autocomplete="off" required type="text" placeholder="Column name" class="dopwdownInput">
+                <input value="test" id="columnNameInput" autocomplete="off" required type="text" placeholder="Column name" class="dopwdownInput">
 
                 <label for="pet-select">Column type:</label>
                 <select name="types" id="type-select" class="dropdownSelect">
                     <option value="Text">Text</option>
                     <option value="Number">Number</option>
+                    <option value="Url">Url</option>
                     <option value="Email">Email</option>
-                    <option value="Image">Image</option>
                 </select>
                 <button onclick="addColumn()" id="addColumButton" class="submitButton">Create column</button>
                 <button onclick="hideModal()" class="submitButton">Cancel</button>
