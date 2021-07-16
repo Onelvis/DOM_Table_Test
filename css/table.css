@@ -67,9 +67,17 @@ td{
     padding: 0px;
 }
 
+.selectedTd{
+    max-width: 100px;
+    width: 60px;
+    height: 40px;
+    padding: 0px;
+    background-color: #ebebeb;
+}
+
 [contenteditable]:focus{
     outline: 0px solid transparent;
-    background-color: #ebebeb;
+    
     caret-color: #686868;
     line-height: 220%;
     cursor:auto;
@@ -94,8 +102,9 @@ tr{
 }
 
 .textCell{
+    padding-left: 10px;
     place-self: center;
-    text-align: center;
+    text-align: left;
     word-wrap: break-word;
     /*
     text-align: center;
@@ -107,7 +116,6 @@ tr{
     margin: auto;
     place-self: center;
     text-align: center;
-    width: fit-content;
     max-width: 100%;
     text-decoration: underline;
     color: #1858be;
@@ -121,7 +129,6 @@ tr{
 }
 .urlCell{
     margin: auto;
-    width: fit-content;
     max-width: 100%;
     text-decoration: underline;
     color: #1858be;
