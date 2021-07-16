@@ -14,13 +14,14 @@ function addRow(){
 	}*/
 	const tableBody = document.getElementById('mainTableBody');
 	const newRow = tableBody.insertRow(-1);
+	const headerRow = document.getElementById('headerRow');
 	
-	document.querySelectorAll('#tableHead th').forEach(()=>{
+	document.querySelectorAll('#tableHead th').forEach((th)=>{
 		const newCell = newRow.insertCell();
 		const editableDiv = document.createElement('div');
-		editableDiv.className = "editableDiv";
-		editableDiv.contentEditable = false;
-		editableDiv.ondblclick = function(e){
+		//editableDiv.className = "textCell";
+		editableDiv.setAttribute('contenteditable',false);
+		newCell.ondblclick = function(e){
 			editableDiv.setAttribute('contenteditable',!(editableDiv.contentEditable === 'true'));
 			editableDiv.focus();
 		};
@@ -33,6 +34,9 @@ function addRow(){
 			}
 		});
 		newCell.appendChild(editableDiv);
+		console.log(th);
+
+		editableDiv.className = getTypeClass(th.columnType);
 	})
 	
 
