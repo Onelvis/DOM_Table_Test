@@ -1,8 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 
-body{
-}
-
 
 h1{
     font-family: 'Roboto', sans-serif;
@@ -10,9 +7,6 @@ h1{
     font-size: 50px;
     margin: 0px;
     padding: 0px;  
-}
-
-#tableHead{
 }
 
 h4{
@@ -29,7 +23,7 @@ h4{
     max-width: 100%;
 }
 
-.mainTable{
+.coolTable{
     border: 2px solid #ebebeb;
     border-radius: 5px;
     font-family: 'Roboto', sans-serif;
@@ -141,4 +135,9 @@ tr{
 .urlCell:hover{
     cursor: pointer;
     color: #687a96;
+}
+
+.checkboxCell{
+    width: 100%;
+    cursor: pointer;
 }

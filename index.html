@@ -31,22 +31,20 @@
                 <button onclick="addColumnOld()" id="addColumButton" class="submitButton">Create column</button>
                 <button onclick="hideModal()" class="submitButton">Cancel</button>
             </div>
-            <button onclick="addRowOld()" id="addRowButton" class="submitButton">Create row</button>
+            <button onclick="addRow()" id="addRowButton" class="submitButton">Create row</button>
             <button onclick="populateTable()" id="addRowButton" class="submitButton">Populate table</button>
         </div>
     </div>
-    <div class="modal"></div>
-    <div id="tableContainer">
         <div id="tableContainer">
-            <table class="mainTable">
+            <table id='mainTable' class="coolTable">
                 <thead id="tableHead">
+                    <tr class="headersRow" id="headerRow"></tr>
                 </thead>
-                <tbody id="mainTableBody">
+                <tbody id="coolTableBody">
     
                 </tbody>
     
             </table>
         </div>
-    </div>
 </body>
 </html>
