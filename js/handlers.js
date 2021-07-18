@@ -45,6 +45,7 @@ const table = {
 	]
 }
 
+document.addEventListener("DOMContentLoaded", populateTable);
 
 function addRow(){
 	table.rows.push({
@@ -59,16 +60,42 @@ function addColumn(){
 
 
 function populateTable(){
+	/*
+	<div id="tableContainer">
+        <table class="mainTable">
+            <thead id="tableHead">
+                <tr class="headersRow" id="headerRow"></tr>
+            </thead>
+            <tbody id="mainTableBody">
 
+            </tbody>
+
+        </table>
+    </div>
+	*/
+
+	const tableHead = document.getElementById('tableHead');
+	const tableBody = document.getElementById('mainTableBody');
+	const headersRow = document.createElement('tr',className='headersRow',id="headerRow")
+	headersRow.className='headersRow';
+	headersRow.id='headerRow';
+	tableHead.appendChild(headersRow);
 
 	//Headers first!
-	table.headers.forEach(header =>{
-		addTableHeader(header);
-	});
+	if(table){
+		table.headers.forEach(header =>{
+			addTableHeader(header);
+		});
+	
+		table.rows.forEach(row => {
+			addTableRow(row);
+		});
+		return;
+	}
 
-	table.rows.forEach(row => {
-		addTableRow(row);
-	});
+	
+
+
 }
 
 function addTableHeader(header){
@@ -80,6 +107,8 @@ function addTableHeader(header){
 	columnHeader.appendChild(text);
 	headerRow.appendChild(columnHeader);
 }
+
+
 function addTableRow(row){
 	const tableBody = document.getElementById('mainTableBody');
 	const newRow = tableBody.insertRow(-1);
@@ -122,7 +151,7 @@ function addRowOld(){
 	const tableBody = document.getElementById('mainTableBody');
 	const newRow = tableBody.insertRow(-1);
 	
-	thHeaders.forEach((th,index)=>{
+	thHeaders.forEach((th)=>{
 		const newCell = newRow.insertCell();
 		const editableDiv = document.createElement('div');
 		editableDiv.setAttribute('contenteditable',false);
@@ -155,6 +184,7 @@ function addRowOld(){
 		cells: newArray
 	});
 	
+	console.log(table)
 
 }
 
@@ -166,7 +196,6 @@ function addColumnOld(){
 	const text = document.createTextNode(type);
 	columnHeader.className = "tableHeaders";
 	columnHeader.columnType = type;
-	columnHeader.typeFormatter = numberFormater;
 	columnHeader.appendChild(text);
 	headerRow.appendChild(columnHeader);
 	// tableHead.appendChild(headerRow);
@@ -187,17 +216,31 @@ function addColumnOld(){
 			editableDiv.setAttribute('contenteditable',false);
 			newCell.classList.toggle('selectedTd');
 		});
+		editableDiv.addEventListener('keydown' , function(e){
+			if(e.code === 'Enter'){
+				editableDiv.blur();
+				let cellIndex = this.parentNode.cellIndex;
+				let rowIndex = this.parentNode.parentNode.rowIndex - 1;
+				table.rows[rowIndex].cells.splice(cellIndex,1,editableDiv.innerHTML);
+			}
+		});
 		
 		newCell.appendChild(editableDiv);
 		tr.appendChild(newCell);
 		applyTypeRules(editableDiv,headerRow.childNodes[newCell.cellIndex].columnType);
+		
+		table.rows[index].cells.push(editableDiv.innerHTML);
+
 	});
+
 
 		
 }
 
 function applyTypeRules(element,type){
 	switch(type){
+
+		//Number formatting
 		case 'Number':
 			element.className = 'numberCell';
 			element.addEventListener('keydown' , function(e){
@@ -209,15 +252,21 @@ function applyTypeRules(element,type){
 				}
 			});
 			break;
+		
+		// Text formatting
 		case 'Text':
 			element.className = 'textCell';
 			break;
+		
+		// Email formatting
 		case 'Email':
 			element.className = 'emailCell';
 			element.addEventListener('click',function(e){
 				e.ctrlKey && window.open('mailto:'+element.innerHTML);
 			})
 			break;
+		
+		// Url formatting	
 		case 'Url':
 			element.className = 'urlCell';
 			element.addEventListener('click',function(e){
@@ -228,6 +277,3 @@ function applyTypeRules(element,type){
 }
 
 
-function numberFormater(editableDiv){
-	//editableDiv.classList.toggle('numberCell')
-}

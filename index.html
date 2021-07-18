@@ -28,7 +28,7 @@
                     <option value="Url">Url</option>
                     <option value="Email">Email</option>
                 </select>
-                <button onclick="addColumn()" id="addColumButton" class="submitButton">Create column</button>
+                <button onclick="addColumnOld()" id="addColumButton" class="submitButton">Create column</button>
                 <button onclick="hideModal()" class="submitButton">Cancel</button>
             </div>
             <button onclick="addRowOld()" id="addRowButton" class="submitButton">Create row</button>
@@ -37,15 +37,16 @@
     </div>
     <div class="modal"></div>
     <div id="tableContainer">
-        <table class="mainTable">
-            <thead id="tableHead">
-                <tr class="headersRow" id="headerRow"></tr>
-            </thead>
-            <tbody id="mainTableBody">
-
-            </tbody>
-
-        </table>
+        <div id="tableContainer">
+            <table class="mainTable">
+                <thead id="tableHead">
+                </thead>
+                <tbody id="mainTableBody">
+    
+                </tbody>
+    
+            </table>
+        </div>
     </div>
 </body>
 </html>
