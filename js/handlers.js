@@ -49,23 +49,32 @@ document.addEventListener("DOMContentLoaded", populateTable);
 
 function addRow(){
 	table.rows.push({
-		id: (table.rows.reduce((prev,next) => {
-			console.log('prev: ',prev.id);
-			console.log('next: ',next.id);
-			return { id: (Math.max(prev.id,next.id))}
-		}).id + 1),
+		id: (table.rows.reduce((prev,next) => { return { id: (Math.max(prev.id,next.id))} }).id + 1),
 		cells: new Array(table.headers.length).fill('')
 	});
 	populateTable();
 }
 
 function addColumn(){
-
+	const type = document.getElementById('typeSelect').value;
+	const name = document.getElementById('columnNameInput').value;
+	
+	table.headers.push(
+		{
+		id: (table.headers.reduce((prev,next) => { return { id: (Math.max(prev.id,next.id))} }).id + 1),
+			type: "Number",
+			text: "Id"
+		}
+	);
+	table.rows.forEach((row)=>{
+		row.cells.push('');
+	});
+	populateTable();
 }
 
 function selectAllRows(e){
 	const tableRows = document.querySelectorAll("#coolTableBody tr"); 
-	tableRows.forEach( row => row.childNodes[0].firstChild.checked = e.currentTarget.checked );
+	tableRows.forEach( row => row.childNodes[0].firstChild.firstChild.checked = e.currentTarget.checked );
 }
 
 
@@ -91,22 +100,23 @@ function createNewTable(){
 
 }
 
-
 function populateTable(){
 	createNewTable();
 	
 	const headerRow = document.getElementById('headerRow');
-	const checkBoxHeader = document.createElement('input');
-	checkBoxHeader.type= 'checkbox';
-	checkBoxHeader.className = 'checkboxCell';
+	const checkboxInput = document.createElement('input');
+	const checkboxLabel = document.createElement('label');
 
-	checkBoxHeader.addEventListener('change',selectAllRows)
+	checkboxInput.type= 'checkbox';
+	checkboxInput.className = 'checkbox';
+	checkboxInput.id = 'headerCheckbox';
+	checkboxInput.addEventListener('change',selectAllRows)
+	const checkBoxHeader = document.createElement('th');
 
-	const columnHeader = document.createElement('th');
+	checkboxLabel.appendChild(checkboxInput);
+	checkBoxHeader.appendChild(checkboxLabel);
 
-	
-	columnHeader.appendChild(checkBoxHeader);
-	headerRow.appendChild(columnHeader);
+	headerRow.appendChild(checkBoxHeader);
 
 	if(table){
 		//Headers first!
@@ -141,11 +151,20 @@ function addTableRow(row){
 	const tableBody = document.getElementById('coolTableBody');
 	const newRow = tableBody.insertRow(-1);
 	const headerRow = document.getElementById('headerRow');
-	const selectCell = newRow.insertCell();
+	
+	// Checkbox cell
 	const checkboxCell = document.createElement('input');
+	const checkboxLabel = document.createElement('label');
+	const selectCell = newRow.insertCell();
+	checkboxCell.addEventListener('change',function (e){
+		let checked = e.currentTarget.checked;
+		document.getElementById('headerCheckbox').checked = checked;
+	});
+
 	checkboxCell.type= 'checkbox';
-	checkboxCell.className = 'checkboxCell';
-	selectCell.appendChild(checkboxCell);
+	checkboxCell.className = 'checkbox';
+	checkboxLabel.appendChild(checkboxCell);
+	selectCell.appendChild(checkboxLabel);
 
 	row.cells.forEach((cell,index) =>{
 		const newCell = newRow.insertCell();
@@ -188,7 +207,6 @@ function addRowOld(){
 	const selectCell = newRow.insertCell();
 	const checkboxCell = document.createElement('input');
 	checkboxCell.type= 'checkbox';
-	checkboxCell.className = 'checkboxCell';
 	selectCell.appendChild(checkboxCell);
 	newRow.appendChild(selectCell);
 	
@@ -233,7 +251,7 @@ function addColumnOld(){
 	//Creating header column
 	const headerRow = document.getElementById('headerRow');
 	const columnHeader = document.createElement('th');
-	const type = document.getElementById('type-select').value;
+	const type = document.getElementById('typeSelect').value;
 	const text = document.createTextNode(type);
 	columnHeader.className = "tableHeaders";
 	columnHeader.columnType = type;

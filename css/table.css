@@ -20,12 +20,12 @@ h4{
 #tableContainer{
     display: flex;
     flex-direction: column;
-    max-width: 100%;
+    max-width: 80%;
 }
 
 .coolTable{
-    border: 2px solid #ebebeb;
-    border-radius: 5px;
+    border: 1px solid #ebebeb;
+    border-radius: 8px;
     font-family: 'Roboto', sans-serif;
     border-collapse: collapse;
     margin: 20px;
@@ -43,24 +43,13 @@ h4{
     border-bottom: 0.5px solid #ebebeb;
 }
 
-th{
-    
-    max-width: 10px;
-    color: #464646;
-    font-size: 16px;
-    padding: 10px;
-}
+
 
 .editableDiv{
     justify-content: center;
     align-items: center;
 }
-td{
-    max-width: 100px;
-    width: 60px;
-    height: 40px;
-    padding: 0px;
-}
+
 
 .selectedTd{
     max-width: 100px;
@@ -82,14 +71,24 @@ tr{
     border-top: 0.5px solid #ebebeb;
 }
 
+td{
+    border: 0px;
+    max-width: 100px;
+    width: 60px;
+    height: 40px;
+    padding: 0px;
+    text-align: center;
+    align-items: center;
+}
+
+th{
+    max-width: 10px;
+    color: #464646;
+    font-size: 16px;
+    height: 40px;
+}
 
 .numberCell{
-    /*
-    place-self: center;
-    text-align: center;
-    text-align: right;
-    color: black;
-    */
     padding-right: 20px;
     place-self: center;
     text-align: right;
@@ -98,24 +97,16 @@ tr{
 
 .textCell{
     padding-left: 10px;
-    place-self: center;
     text-align: left;
     word-wrap: break-word;
-    /*
-    text-align: center;
-    align-items: center;
-    word-wrap: break-word;*/
 }
 
 .emailCell{
     margin: auto;
-    place-self: center;
-    text-align: center;
     max-width: 100%;
     text-decoration: underline;
     color: #1858be;
-    text-align: center;
-    align-items: center;
+   
     word-wrap: break-word;
 }
 .emailCell:hover{
@@ -127,8 +118,7 @@ tr{
     max-width: 100%;
     text-decoration: underline;
     color: #1858be;
-    text-align: center;
-    align-items: center;
+    
     word-wrap: break-word;
 }
 
@@ -137,7 +127,18 @@ tr{
     color: #687a96;
 }
 
-.checkboxCell{
-    width: 100%;
+.checkbox{
+    cursor: pointer;
+    grid-column: 2;
+    grid-row: 2;
+}
+
+label{
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    grid-template-rows: 1px auto 1px;
+    justify-items: center;
+    align-items: center;
+    height: 100%;
     cursor: pointer;
 }

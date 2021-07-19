@@ -22,13 +22,13 @@
                 <input value="test" id="columnNameInput" autocomplete="off" required type="text" placeholder="Column name" class="dopwdownInput">
 
                 <label for="pet-select">Column type:</label>
-                <select name="types" id="type-select" class="dropdownSelect">
+                <select name="types" id="typeSelect" class="dropdownSelect">
                     <option value="Text">Text</option>
                     <option value="Number">Number</option>
                     <option value="Url">Url</option>
                     <option value="Email">Email</option>
                 </select>
-                <button onclick="addColumnOld()" id="addColumButton" class="submitButton">Create column</button>
+                <button onclick="addColumn()" id="addColumButton" class="submitButton">Create column</button>
                 <button onclick="hideModal()" class="submitButton">Cancel</button>
             </div>
             <button onclick="addRow()" id="addRowButton" class="submitButton">Create row</button>
