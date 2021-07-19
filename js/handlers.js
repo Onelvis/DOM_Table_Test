@@ -50,7 +50,13 @@ let table = {
 	rows: []
 };
 
-document.addEventListener("DOMContentLoaded", populateTable);
+document.addEventListener("DOMContentLoaded", loadTable);
+
+function loadTable(){
+	table = JSON.parse(localStorage.getItem('table'));
+	console.log(table);
+	populateTable();
+}
 
 function pushRow(){
 	table.rows.push({
@@ -103,6 +109,13 @@ function createNewTable(){
 	
 	oldTable.parentNode.replaceChild(newTable, oldTable);
 	
+}
+
+function saveTable(){
+	let jsonTable = JSON.stringify(table);
+	console.log(jsonTable)
+
+	localStorage.setItem('table',jsonTable);
 }
 
 function populateTable(){
@@ -191,6 +204,10 @@ function addTableRow(row){
 		editableDiv.addEventListener('keydown' , function(e){
 			if(e.code === 'Enter'){
 				editableDiv.blur();
+				const columnIndex = this.parentNode.cellIndex - 1;
+				const rowIndex = this.parentNode.parentNode.rowIndex - 1;
+				table.rows[rowIndex].cells[columnIndex] =  e.currentTarget.innerHTML;
+				saveTable();
 			}
 		});
 		const text = document.createTextNode(cell);
