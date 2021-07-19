@@ -1,5 +1,5 @@
 
-const table = {
+let table2 = {
 	headers: [
 		{
 			id: 1,
@@ -45,23 +45,27 @@ const table = {
 	]
 }
 
+let table = {
+	headers: [],
+	rows: []
+};
+
 document.addEventListener("DOMContentLoaded", populateTable);
 
-function addRow(){
+function pushRow(){
 	table.rows.push({
-		id: (table.rows.reduce((prev,next) => { return { id: (Math.max(prev.id,next.id))} }).id + 1),
+		id: (table.rows.reduce((prev,next) => { return { id: (Math.max(prev.id,next.id))} }, {id:0}).id + 1),
 		cells: new Array(table.headers.length).fill('')
 	});
 	populateTable();
 }
 
-function addColumn(){
+function pushColumn(){
 	const type = document.getElementById('typeSelect').value;
 	const name = document.getElementById('columnNameInput').value;
-	
 	table.headers.push(
 		{
-		id: (table.headers.reduce((prev,next) => { return { id: (Math.max(prev.id,next.id))} }).id + 1),
+		id: (table.headers.reduce((prev,next) => { return { id: (Math.max(prev.id,next.id))} }, {id:0}).id + 1),
 			type: type,
 			text: name
 		}
@@ -96,8 +100,9 @@ function createNewTable(){
 	tableHead.appendChild(tableHeadersRow);
 	newTable.appendChild(tableHead);
 	newTable.appendChild(tableBody);
+	
 	oldTable.parentNode.replaceChild(newTable, oldTable);
-
+	
 }
 
 function populateTable(){
@@ -106,6 +111,7 @@ function populateTable(){
 	const headerRow = document.getElementById('headerRow');
 	const checkboxInput = document.createElement('input');
 	const checkboxLabel = document.createElement('label');
+	checkboxLabel.className = 'checkboxLabel';
 
 	checkboxInput.type= 'checkbox';
 	checkboxInput.className = 'checkbox';
@@ -117,13 +123,14 @@ function populateTable(){
 	checkBoxHeader.appendChild(checkboxLabel);
 
 	headerRow.appendChild(checkBoxHeader);
-
-	if(table){
+	
+	
+	if(table.headers.length > 0){
 		//Headers first!
 		table.headers.forEach(header =>{
 			addTableHeader(header);
 		});
-	
+
 		table.rows.forEach(row => {
 			addTableRow(row);
 		});
@@ -131,6 +138,7 @@ function populateTable(){
 	}
 
 
+	addTableHeader({text:"",type:"Number"})
 
 
 }
@@ -155,10 +163,11 @@ function addTableRow(row){
 	// Checkbox cell
 	const checkboxCell = document.createElement('input');
 	const checkboxLabel = document.createElement('label');
+	checkboxLabel.className = 'checkboxLabel';
 	const selectCell = newRow.insertCell();
 	checkboxCell.addEventListener('change',function (e){
 		let checked = e.currentTarget.checked;
-		document.getElementById('headerCheckbox').checked = checked;
+		document.getElementById('headerCheckbox').checked = checked ? document.getElementById('headerCheckbox').checked : checked;
 	});
 
 	checkboxCell.type= 'checkbox';
@@ -191,109 +200,6 @@ function addTableRow(row){
 		// index +1 due to the pressence of the checkbox cell
 		applyTypeRules(editableDiv,headerRow.childNodes[index+1].columnType);
 	});
-}
-
-
-
-function addRowOld(){
-
-	const thHeaders = document.querySelectorAll('#tableHead th');
-
-	let newArray = new Array(thHeaders.length).fill('');
-
-	const tableBody = document.getElementById('coolTableBody');
-	const newRow = tableBody.insertRow(-1);
-
-	const selectCell = newRow.insertCell();
-	const checkboxCell = document.createElement('input');
-	checkboxCell.type= 'checkbox';
-	selectCell.appendChild(checkboxCell);
-	newRow.appendChild(selectCell);
-	
-	thHeaders.forEach((th)=>{
-		const newCell = newRow.insertCell();
-		const editableDiv = document.createElement('div');
-		editableDiv.setAttribute('contenteditable',false);
-		newCell.ondblclick = function(){
-			newCell.classList.toggle('selectedTd');
-			editableDiv.setAttribute('contenteditable',!(editableDiv.contentEditable === 'true'));
-			editableDiv.focus();
-		};
-		editableDiv.addEventListener('focusout' , function(e){
-			editableDiv.setAttribute('contenteditable',false);
-			newCell.classList.toggle('selectedTd');
-		});
-		editableDiv.addEventListener('keydown' , function(e){
-			if(e.code === 'Enter'){
-				editableDiv.blur();
-				let cellIndex = this.parentNode.cellIndex;
-				let rowIndex = this.parentNode.parentNode.rowIndex - 1;
-				table.rows[rowIndex].cells.splice(cellIndex,1,editableDiv.innerHTML);
-			}
-		});
-
-		newCell.appendChild(editableDiv);
-		applyTypeRules(editableDiv,th.columnType);
-
-	})
-
-	
-	table.rows.push({
-		id: ( table.rows.reduce((prev,next) => Math.max(prev.id,next.id)) + 1),
-		cells: newArray
-	});
-	
-	console.log(table)
-
-}
-
-function addColumnOld(){
-	//Creating header column
-	const headerRow = document.getElementById('headerRow');
-	const columnHeader = document.createElement('th');
-	const type = document.getElementById('typeSelect').value;
-	const text = document.createTextNode(type);
-	columnHeader.className = "tableHeaders";
-	columnHeader.columnType = type;
-	columnHeader.appendChild(text);
-	headerRow.appendChild(columnHeader);
-	// tableHead.appendChild(headerRow);
-	
-
-
-	document.querySelectorAll("#coolTableBody tr").forEach( (tr,index) =>{
-		const newCell = document.createElement('td');
-		const editableDiv = document.createElement('div');
-		editableDiv.className = "textCell";
-		editableDiv.setAttribute('contenteditable',false);
-		newCell.ondblclick = function(e){
-			newCell.classList.toggle('selectedTd');
-			editableDiv.setAttribute('contenteditable',!(editableDiv.contentEditable === 'true'));
-			editableDiv.focus();
-		};
-		editableDiv.addEventListener('focusout' , function(e){
-			editableDiv.setAttribute('contenteditable',false);
-			newCell.classList.toggle('selectedTd');
-		});
-		editableDiv.addEventListener('keydown' , function(e){
-			if(e.code === 'Enter'){
-				editableDiv.blur();
-				let cellIndex = this.parentNode.cellIndex;
-				let rowIndex = this.parentNode.parentNode.rowIndex - 1;
-				table.rows[rowIndex].cells.splice(cellIndex,1,editableDiv.innerHTML);
-			}
-		});
-		
-		newCell.appendChild(editableDiv);
-		tr.appendChild(newCell);
-		applyTypeRules(editableDiv,headerRow.childNodes[newCell.cellIndex].columnType);
-		
-		table.rows[index].cells.push(editableDiv.innerHTML);
-
-	});
-
-
-		
 }
 
 function applyTypeRules(element,type){
