@@ -62,8 +62,8 @@ function addColumn(){
 	table.headers.push(
 		{
 		id: (table.headers.reduce((prev,next) => { return { id: (Math.max(prev.id,next.id))} }).id + 1),
-			type: "Number",
-			text: "Id"
+			type: type,
+			text: name
 		}
 	);
 	table.rows.forEach((row)=>{
