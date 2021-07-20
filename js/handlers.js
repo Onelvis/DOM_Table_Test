@@ -56,7 +56,6 @@ function loadTable(){
 	table = JSON.parse(localStorage.getItem('table')) ||  { headers: [], rows: [] };;
 
 
-	console.log(table);
 	populateTable();
 }
 
@@ -223,13 +222,37 @@ function addTableRow(row){
 	});
 	const settingCell = newRow.insertCell();
 	settingCell.className = "settingCell";
+	
 	const icon = document.createElement('span');
-	const select = document.createElement('select');
+	const dropdownWrapper = document.createElement('div');
+	dropdownWrapper.className = 'selectDropdownWrapper';
 
+	dropdownWrapper.addEventListener('click', function(e){
+		let currentClass = e.currentTarget.childNodes[1].className;
+		e.currentTarget.childNodes[1].className = currentClass === 'selectDropdown' ? 'selectDropdown show' : 'selectDropdown';
+	});
+
+	const dropdown = document.createElement('div');
+	dropdown.className = 'selectDropdown';
+
+	const csv = document.createElement('a');
+	csv.innerHTML =  "Copy (Csv)"
+	const json = document.createElement('a');
+	json.innerHTML =  "Copy (Json)"
+	const deleteRow = document.createElement('a');
+	deleteRow.innerHTML =  "Delete"
+	dropdown.appendChild(csv);
+	dropdown.appendChild(json);
+	dropdown.appendChild(deleteRow);
+
+	dropdownWrapper.appendChild(icon);
+	dropdownWrapper.appendChild(dropdown);
+
+	
 
 	icon.className = "material-icons md-20";
 	icon.innerHTML = "settings";
-	settingCell.appendChild(icon);
+	settingCell.appendChild(dropdownWrapper);
 
 }
 
@@ -273,3 +296,23 @@ function applyTypeRules(element,type){
 }
 
 
+
+
+window.addEventListener('click', function(e){
+
+	if( e.target.className !== "selectDropdownWrapper" ){
+		document.querySelectorAll(".selectDropdown").forEach((element)=>{
+			if(element.className == 'selectDropdown show'){
+				element.classList.remove('show');
+			}
+		});
+	}
+	else{
+		document.querySelectorAll(".selectDropdown").forEach((element)=>{
+			if(element.className == 'selectDropdown show'){
+				element.classList.remove('show');
+			}
+		});
+		e.target.className = 'selectDropdown show';
+	}
+});
