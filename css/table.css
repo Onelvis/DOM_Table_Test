@@ -128,6 +128,10 @@ th{
     color: #687a96;
 }
 
+.checkboxCell{
+    width: 10px;
+}
+
 .checkbox{
     cursor: pointer;
     grid-column: 2;
@@ -145,16 +149,13 @@ th{
 }
 
 .settingCell{
+    position: relative;
+    width: 0px;
     cursor: pointer;
-}
-.settingCell:hover{
-    background-color: #e6eaf0;
-}
-.settingCell:active{
-    background-color: #edf0f3;
 }
 
 .material-icons.md-20{
+    pointer-events: none;
     color: #3f4552;
     font-size: 20px;
     -webkit-touch-callout: none;
@@ -164,4 +165,5 @@ th{
     -ms-user-select: none;
     user-select: none;
 }
+
 

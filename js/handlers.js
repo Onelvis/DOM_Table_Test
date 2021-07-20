@@ -53,8 +53,9 @@ let table = {
 document.addEventListener("DOMContentLoaded", loadTable);
 
 function loadTable(){
-	let jsonTable = JSON.parse(localStorage.getItem('table'));
-	table = jsonTable ||  { headers: [], rows: [] };;
+	table = JSON.parse(localStorage.getItem('table')) ||  { headers: [], rows: [] };;
+
+
 	console.log(table);
 	populateTable();
 }
@@ -132,6 +133,7 @@ function populateTable(){
 	checkboxInput.id = 'headerCheckbox';
 	checkboxInput.addEventListener('change',selectAllRows)
 	const checkBoxHeader = document.createElement('th');
+	checkBoxHeader.className = 'checkboxCell';
 
 	checkboxLabel.appendChild(checkboxInput);
 	checkBoxHeader.appendChild(checkboxLabel);
@@ -179,6 +181,7 @@ function addTableRow(row){
 	const checkboxLabel = document.createElement('label');
 	checkboxLabel.className = 'checkboxLabel';
 	const selectCell = newRow.insertCell();
+	selectCell.className = 'checkboxCell';
 	checkboxCell.addEventListener('change',function (e){
 		let checked = e.currentTarget.checked;
 		document.getElementById('headerCheckbox').checked = checked ? document.getElementById('headerCheckbox').checked : checked;
@@ -221,6 +224,9 @@ function addTableRow(row){
 	const settingCell = newRow.insertCell();
 	settingCell.className = "settingCell";
 	const icon = document.createElement('span');
+	const select = document.createElement('select');
+
+
 	icon.className = "material-icons md-20";
 	icon.innerHTML = "settings";
 	settingCell.appendChild(icon);
