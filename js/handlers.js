@@ -53,7 +53,8 @@ let table = {
 document.addEventListener("DOMContentLoaded", loadTable);
 
 function loadTable(){
-	table = JSON.parse(localStorage.getItem('table'));
+	let jsonTable = JSON.parse(localStorage.getItem('table'));
+	table = jsonTable ||  { headers: [], rows: [] };;
 	console.log(table);
 	populateTable();
 }
@@ -217,6 +218,13 @@ function addTableRow(row){
 		// index +1 due to the pressence of the checkbox cell
 		applyTypeRules(editableDiv,headerRow.childNodes[index+1].columnType);
 	});
+	const settingCell = newRow.insertCell();
+	settingCell.className = "settingCell";
+	const icon = document.createElement('span');
+	icon.className = "material-icons md-20";
+	icon.innerHTML = "settings";
+	settingCell.appendChild(icon);
+
 }
 
 function applyTypeRules(element,type){
