@@ -236,11 +236,35 @@ function addTableRow(row){
 	dropdown.className = 'selectDropdown';
 
 	const csv = document.createElement('a');
+	const div1 = document.createElement('div');
+
 	csv.innerHTML =  "Copy (Csv)"
+	div1.appendChild(csv);
 	const json = document.createElement('a');
 	json.innerHTML =  "Copy (Json)"
 	const deleteRow = document.createElement('a');
 	deleteRow.innerHTML =  "Delete"
+
+
+	const copyIcon = document.createElement('span');
+	copyIcon.className = "material-icons small";
+	copyIcon.innerHTML = "content_paste";
+
+	const copyIcon2 = document.createElement('span');
+	copyIcon2.className = "material-icons small";
+	copyIcon2.innerHTML = "content_paste";
+
+	const deleteIcon = document.createElement('span');
+	const test = document.createElement('a');
+	test.innerHTML = "Hello";
+	deleteIcon.className = "material-icons small red";
+	deleteIcon.innerHTML = "clear";
+
+
+	csv.appendChild(copyIcon);
+	json.appendChild(copyIcon2);
+	deleteRow.appendChild(deleteIcon);
+
 	dropdown.appendChild(csv);
 	dropdown.appendChild(json);
 	dropdown.appendChild(deleteRow);
@@ -299,20 +323,12 @@ function applyTypeRules(element,type){
 
 
 window.addEventListener('click', function(e){
-
+	
 	if( e.target.className !== "selectDropdownWrapper" ){
 		document.querySelectorAll(".selectDropdown").forEach((element)=>{
 			if(element.className == 'selectDropdown show'){
 				element.classList.remove('show');
 			}
 		});
-	}
-	else{
-		document.querySelectorAll(".selectDropdown").forEach((element)=>{
-			if(element.className == 'selectDropdown show'){
-				element.classList.remove('show');
-			}
-		});
-		e.target.className = 'selectDropdown show';
 	}
 });
