@@ -54,8 +54,6 @@ document.addEventListener("DOMContentLoaded", loadTable);
 
 function loadTable(){
 	table = JSON.parse(localStorage.getItem('table')) ||  { headers: [], rows: [] };;
-
-
 	populateTable();
 }
 
@@ -65,6 +63,7 @@ function pushRow(){
 		cells: new Array(table.headers.length).fill('')
 	});
 	populateTable();
+	saveTable();
 }
 
 function pushColumn(){
@@ -81,6 +80,7 @@ function pushColumn(){
 		row.cells.push('');
 	});
 	populateTable();
+	saveTable();
 }
 
 function selectAllRows(e){
@@ -114,8 +114,6 @@ function createNewTable(){
 
 function saveTable(){
 	let jsonTable = JSON.stringify(table);
-	console.log(jsonTable)
-
 	localStorage.setItem('table',jsonTable);
 }
 
@@ -158,10 +156,37 @@ function populateTable(){
 
 }
 
+// TODO: This doesn't work!
 function addTableHeader(header){
 	const headerRow = document.getElementById('headerRow');
 	const columnHeader = document.createElement('th');
 	const text = document.createTextNode(header.text);
+	columnHeader.sort = 'no';
+
+	columnHeader.addEventListener('click', function(e){
+		let columnIndex = e.currentTarget.cellIndex - 1;
+
+		this.sort = this.sort == "no" ? 'desc' : this.sort == 'desc' ? 'asc' : 'no';
+		console.log(this.sort);
+
+		switch(this.sort){
+			case 'no':
+				console.log(this.sort);
+				break;
+
+			case 'asc':
+				table.rows.sort((current, next) => current.cells[columnIndex] - next.cells[columnIndex] );
+				populateTable();
+				break;
+				
+			case 'desc':
+				//table.rows.sort((current, next) => next.cells[columnIndex] - current.cells[columnIndex] );
+				//populateTable();
+				break;
+		}
+		console.log(this.sort);
+
+	});
 
 	columnHeader.className = "tableHeaders";
 	columnHeader.columnType = header.type;
@@ -244,6 +269,7 @@ function addTableRow(row){
 	json.innerHTML =  "Copy (Json)"
 	const deleteRow = document.createElement('a');
 	deleteRow.innerHTML =  "Delete"
+	deleteRow.addEventListener('click', removeRow );
 
 
 	const copyIcon = document.createElement('span');
@@ -319,7 +345,13 @@ function applyTypeRules(element,type){
 	}
 }
 
-
+function removeRow(e){
+	let rowIndex = e.currentTarget.parentNode.parentNode.parentNode.parentNode.rowIndex - 1;
+	table.rows.splice(rowIndex,1);
+	console.log(table.rows);
+	saveTable();
+	populateTable();
+}
 
 
 window.addEventListener('click', function(e){

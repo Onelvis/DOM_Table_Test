@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 
-
+body{
+}
 h1{
     font-family: 'Roboto', sans-serif;
     color: black;
@@ -87,6 +88,7 @@ th{
     color: #464646;
     font-size: 16px;
     height: 40px;
+    cursor: pointer;
 }
 
 .numberCell{
@@ -193,14 +195,14 @@ th{
     border: solid 1px transparent;
     display: none;
     position: absolute;
-    left: -70px;
+    left: 0px;
     z-index: 1;
 }
 
 .selectDropdown.show{
     margin-top: 16px;
     background-color: #eef1f6;
-    width: 300%;
+    width: 100%;
     display: block;
 }
 
