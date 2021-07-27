@@ -156,36 +156,54 @@ function populateTable(){
 
 }
 
-// TODO: This doesn't work!
 function addTableHeader(header){
 	const headerRow = document.getElementById('headerRow');
 	const columnHeader = document.createElement('th');
 	const text = document.createTextNode(header.text);
 	columnHeader.sort = 'no';
+	console.log(columnHeader.sort);
 
+	// Column sorting
 	columnHeader.addEventListener('click', function(e){
 		let columnIndex = e.currentTarget.cellIndex - 1;
-
-		this.sort = this.sort == "no" ? 'desc' : this.sort == 'desc' ? 'asc' : 'no';
-		console.log(this.sort);
-
+		this.sort = this.sort == "no" ? 'desc' : this.sort == 'desc' ? 'asc' : 'desc';
 		switch(this.sort){
 			case 'no':
-				console.log(this.sort);
-				break;
-
-			case 'asc':
-				table.rows.sort((current, next) => current.cells[columnIndex] - next.cells[columnIndex] );
-				populateTable();
 				break;
 				
+			case 'asc':
+				table.rows.sort((current, next) => {
+					if (current.cells[columnIndex] < next.cells[columnIndex]){
+						return  -1;
+					}
+					else{
+						return 1;
+					}
+				});
+				document.querySelectorAll('#coolTableBody tr').forEach(element => {
+					element.remove()
+				});
+				table.rows.forEach(row => {
+					addTableRow(row);
+				});
+				break;
 			case 'desc':
-				//table.rows.sort((current, next) => next.cells[columnIndex] - current.cells[columnIndex] );
-				//populateTable();
+				table.rows.sort((current, next) => {
+					if (current.cells[columnIndex] < next.cells[columnIndex]){
+						return  1;
+					}
+					else{
+						return -1;
+					}
+				});
+				document.querySelectorAll('#coolTableBody tr').forEach(element => {
+					element.remove()
+				});
+				table.rows.forEach(row => {
+					addTableRow(row);
+				});
 				break;
 		}
-		console.log(this.sort);
-
 	});
 
 	columnHeader.className = "tableHeaders";
@@ -234,8 +252,16 @@ function addTableRow(row){
 				editableDiv.blur();
 				const columnIndex = this.parentNode.cellIndex - 1;
 				const rowIndex = this.parentNode.parentNode.rowIndex - 1;
-				table.rows[rowIndex].cells[columnIndex] =  e.currentTarget.innerHTML;
+				const type = headerRow.childNodes[index+1].columnType;
+				console.log(type);
+				if (type === 'Number'){
+					table.rows[rowIndex].cells[columnIndex] = Number.parseFloat(e.currentTarget.innerHTML);
+				}
+				else{
+					table.rows[rowIndex].cells[columnIndex] =  e.currentTarget.innerHTML;
+				}
 				saveTable();
+				console.log(table.rows);
 			}
 		});
 		const text = document.createTextNode(cell);

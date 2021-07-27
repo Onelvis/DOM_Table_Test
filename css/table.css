@@ -218,9 +218,9 @@ th{
 }
 
 .selectDropdown a:hover {
+    display: block;
     background-color: #e2e6ee;
     color: black;
-    padding: 12px 16px;
     text-decoration: none;
   }
 
