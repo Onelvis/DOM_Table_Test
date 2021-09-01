@@ -69,13 +69,12 @@ function pushRow(){
 function pushColumn(){
 	const type = document.getElementById('typeSelect').value;
 	const name = document.getElementById('columnNameInput').value;
-	table.headers.push(
-		{
-		id: (table.headers.reduce((prev,next) => { return { id: (Math.max(prev.id,next.id))} }, {id:0}).id + 1),
+	table.headers.push({
+			id: (table.headers.reduce((prev,next) => { return { id: (Math.max(prev.id,next.id))} }, {id:0}).id + 1),
 			type: type,
 			text: name
-		}
-	);
+	});
+
 	table.rows.forEach((row)=>{
 		row.cells.push('');
 	});
@@ -103,6 +102,10 @@ function createNewTable(){
 
 	const tableBody = document.createElement('tbody');
 	tableBody.id = 'coolTableBody';
+
+	tableBody.addEventListener('drop',drop);
+	tableBody.addEventListener('dragover',dragOver);
+
 
 	tableHead.appendChild(tableHeadersRow);
 	newTable.appendChild(tableHead);
@@ -132,9 +135,9 @@ function populateTable(){
 	const checkBoxHeader = document.createElement('th');
 	checkBoxHeader.className = 'checkboxCell';
 
+	
 	checkboxLabel.appendChild(checkboxInput);
 	checkBoxHeader.appendChild(checkboxLabel);
-
 	headerRow.appendChild(checkBoxHeader);
 	
 	
@@ -161,17 +164,27 @@ function addTableHeader(header){
 	const columnHeader = document.createElement('th');
 	const text = document.createTextNode(header.text);
 	columnHeader.sort = 'no';
-	console.log(columnHeader.sort);
+
+	const icon = document.createElement('span');
+	icon.innerHTML = "arrow_upward";
+	icon.className = "material-icons small sort asc hide";
 
 	// Column sorting
 	columnHeader.addEventListener('click', function(e){
+		document.querySelectorAll('#headerRow span.material-icons').forEach((element) =>{
+			element.className = "material-icons small sort desc hide";
+		});
 		let columnIndex = e.currentTarget.cellIndex - 1;
+		
 		this.sort = this.sort == "no" ? 'desc' : this.sort == 'desc' ? 'asc' : 'desc';
 		switch(this.sort){
 			case 'no':
+				icon.innerHTML = ""
+				icon.className = "material-icons small sort asc hide";
 				break;
 				
 			case 'asc':
+				icon.className = "material-icons small sort asc";
 				table.rows.sort((current, next) => {
 					if (current.cells[columnIndex] < next.cells[columnIndex]){
 						return  -1;
@@ -180,6 +193,7 @@ function addTableHeader(header){
 						return 1;
 					}
 				});
+				// Repopulate the table with the now ordered array of rows
 				document.querySelectorAll('#coolTableBody tr').forEach(element => {
 					element.remove()
 				});
@@ -188,6 +202,7 @@ function addTableHeader(header){
 				});
 				break;
 			case 'desc':
+				icon.className = "material-icons small sort desc";
 				table.rows.sort((current, next) => {
 					if (current.cells[columnIndex] < next.cells[columnIndex]){
 						return  1;
@@ -205,18 +220,54 @@ function addTableHeader(header){
 				break;
 		}
 	});
-
+	
 	columnHeader.className = "tableHeaders";
 	columnHeader.columnType = header.type;
 	columnHeader.appendChild(text);
+	columnHeader.appendChild(icon);
 	headerRow.appendChild(columnHeader);
 }
 
+function drag(e){
+	e.dataTransfer.setData("text/html",e.target.innerHTML);
+	let dragImage = new Image();
+	dragImage.src = '../assets/drag.png'
+	e.dataTransfer.setDragImage(dragImage,10,10);
+}
+
+function dragOver(e){
+	e.preventDefault();
+
+}
+
+function drop(e){
+	e.preventDefault();
+	const element = e.dataTransfer.getData("text/html");
+	const row = document.createElement('tr');
+	// console.log(row);
+	// console.log(row.rowIndex);
+	row.innerHTML = element;
+
+	let target = e.target;
+	
+	while(target.nodeName !== "TR"){
+		target = target.parentNode;
+	}
+	target.parentNode.insertBefore(row, target);
+
+
+	console.log('current target: ',e.currentTarget);
+	console.log('target: ',e.target);
+	console.log('Row: ',target);
+}
 
 function addTableRow(row){
 	const tableBody = document.getElementById('coolTableBody');
 	const newRow = tableBody.insertRow(-1);
+	newRow.setAttribute('draggable',true);
 	const headerRow = document.getElementById('headerRow');
+
+	newRow.addEventListener('dragstart',drag);
 	
 	// Checkbox cell
 	const checkboxCell = document.createElement('input');
@@ -250,10 +301,12 @@ function addTableRow(row){
 		editableDiv.addEventListener('keydown' , function(e){
 			if(e.code === 'Enter'){
 				editableDiv.blur();
-				const columnIndex = this.parentNode.cellIndex - 1;
+			}
+		});
+		editableDiv.addEventListener('blur', function(e){
+			const columnIndex = this.parentNode.cellIndex - 1;
 				const rowIndex = this.parentNode.parentNode.rowIndex - 1;
 				const type = headerRow.childNodes[index+1].columnType;
-				console.log(type);
 				if (type === 'Number'){
 					table.rows[rowIndex].cells[columnIndex] = Number.parseFloat(e.currentTarget.innerHTML);
 				}
@@ -261,9 +314,7 @@ function addTableRow(row){
 					table.rows[rowIndex].cells[columnIndex] =  e.currentTarget.innerHTML;
 				}
 				saveTable();
-				console.log(table.rows);
-			}
-		});
+		})
 		const text = document.createTextNode(cell);
 		
 		editableDiv.appendChild(text);
@@ -329,7 +380,6 @@ function addTableRow(row){
 	icon.className = "material-icons md-20";
 	icon.innerHTML = "settings";
 	settingCell.appendChild(dropdownWrapper);
-
 }
 
 function applyTypeRules(element,type){
@@ -374,7 +424,6 @@ function applyTypeRules(element,type){
 function removeRow(e){
 	let rowIndex = e.currentTarget.parentNode.parentNode.parentNode.parentNode.rowIndex - 1;
 	table.rows.splice(rowIndex,1);
-	console.log(table.rows);
 	saveTable();
 	populateTable();
 }

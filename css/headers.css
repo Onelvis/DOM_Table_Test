@@ -1,0 +1,31 @@
+.material-icons{
+    position: relative;
+    top: 10px;
+    color: #3f4552;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none;
+}
+
+.sort{
+	z-index: -1;
+	top: 4px;
+	left: 5px;
+	color: #798297;
+	transition: transform 0.25s linear;
+	
+}
+.desc{
+	transform: rotate(180deg);
+}
+.asc{
+	transform: rotate(0deg);
+}
+.hide{
+	visibility: hidden;
+}
+
